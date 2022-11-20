@@ -1,14 +1,14 @@
-FROM ubuntu
+FROM alpine
 
- ENV TZ=Europe/Kiev
+ENV TZ=Europe/Kiev
  
- COPY src/index.php /var/www/html
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+    apk update && \
+    apk add apache2 php && \
+    rm -rf /var/www/localhost/htdocs/index.html
 
- RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
- RUN    apt update
- RUN    apt install -y apache2 php
- RUN    rm -rf /var/www/html/index.html
+COPY src/index.php /var/www/localhost/htdocs
      
- EXPOSE 80
+EXPOSE 80
 
- CMD ["apachectl", "-D", "FOREGROUND"]
+CMD "rc-service apache2 start"
