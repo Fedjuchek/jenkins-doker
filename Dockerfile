@@ -11,4 +11,4 @@ COPY src/index.php /var/www/localhost/htdocs
      
 EXPOSE 80
 
-CMD "rc-service apache2 start"
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
