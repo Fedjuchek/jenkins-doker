@@ -38,7 +38,7 @@ pipeline {
                         ssh -tt user@192.168.88.67 '\
                         docker stop jenkins-doker || true
                         docker rm jenkins-doker || true
-                        docker container run --name jenkins-doker -d fedjuchek/jenkins-doker:$BUILD_NUMBER
+                        docker container run --name jenkins-doker -d -p 8081:80 fedjuchek/jenkins-doker:$BUILD_NUMBER
                         '
                        """
                 }
