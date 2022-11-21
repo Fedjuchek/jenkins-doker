@@ -31,11 +31,15 @@ pipeline {
                 }
             }
         }
-        stage('Login to remote server') {
+        stage('Deploy to remote server') {
             steps {
                 sshagent(credentials: ['remote-server-fedjuchek-cred']) {
                     sh '''
-                        ssh -tt user@192.168.88.67 "java --version"
+                        ssh -tt user@192.168.88.67 "\
+                        docker stop jenkins-doker || true
+                        docker rm jenkins-doker || true
+                        docker container run --name jenkins-doker -d fedjuchek/jenkins-doker:latest
+                        "
                        '''
                 }
             }
